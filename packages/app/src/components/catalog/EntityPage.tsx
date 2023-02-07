@@ -55,6 +55,7 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import { TopologyPage } from '@janus-idp/plugin-topology';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -165,6 +166,11 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
+
+    {/* TODO: Add entity for topology */}
+    <EntityLayout.Route path="/topology" title="Topology">
+      <TopologyPage />
+    </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -191,6 +197,11 @@ const websiteEntityPage = (
 
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
+    </EntityLayout.Route>
+
+    {/* TODO: Add entity for topology */}
+    <EntityLayout.Route path="/topology" title="Topology">
+      <TopologyPage />
     </EntityLayout.Route>
   </EntityLayout>
 );

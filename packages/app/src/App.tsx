@@ -95,6 +95,7 @@ const routes = (
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    {/* TODO: topology app route */}
     <Route path="/topology" element={<TopologyPage />} />
   </FlatRoutes>
 );
