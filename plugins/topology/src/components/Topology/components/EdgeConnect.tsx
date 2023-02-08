@@ -1,13 +1,23 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { DefaultEdge, Edge, WithContextMenuProps, WithSelectionProps } from '@patternfly/react-topology';
+import {
+  DefaultEdge,
+  Edge,
+  WithContextMenuProps,
+  WithSelectionProps,
+} from '@patternfly/react-topology';
 
-type StyleEdgeProps = {
+type EdgeConnectProps = {
   element: Edge;
 } & WithContextMenuProps &
   WithSelectionProps;
 
-const StyleEdge: React.FunctionComponent<StyleEdgeProps> = ({ element, onContextMenu, contextMenuOpen, ...rest }) => {
+const EdgeConnect: React.FunctionComponent<EdgeConnectProps> = ({
+  element,
+  onContextMenu,
+  contextMenuOpen,
+  ...rest
+}) => {
   const data = element.getData();
 
   const passedData = React.useMemo(() => {
@@ -31,4 +41,4 @@ const StyleEdge: React.FunctionComponent<StyleEdgeProps> = ({ element, onContext
   );
 };
 
-export default observer(StyleEdge);
+export default observer(EdgeConnect);

@@ -16,7 +16,7 @@ import {
   VisualizationSurface,
 } from '@patternfly/react-topology';
 import defaultLayoutFactory from './layouts/defaultLayoutFactory';
-import workloadComponentFactory from './components/workloadComponentFactory';
+import TopologyComponentFactory from './components/TopologyComponentFactory';
 import { updateTopologyDataModel } from './data-transforms/updateTopologyDataModel';
 import { mockResources, mockWatchedRes } from '../../data/mock-watched-res';
 
@@ -117,7 +117,7 @@ const TopologyViewWorkloadComponent: React.FunctionComponent<
 export const TopologyWorkloadPackage = React.memo(() => {
   const controller = new Visualization();
   controller.registerLayoutFactory(defaultLayoutFactory);
-  controller.registerComponentFactory(workloadComponentFactory);
+  controller.registerComponentFactory(TopologyComponentFactory);
 
   return (
     <VisualizationProvider controller={controller}>

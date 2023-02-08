@@ -788,6 +788,7 @@ export const mockDeploymentData2 = {
       'image.openshift.io/triggers':
         '[{"from":{"kind":"ImageStreamTag","name":"helloworld:latest","namespace":"jai-test"},"fieldPath":"spec.template.spec.containers[?(@.name==\\"helloworld\\")].image","pause":"false"}]',
       'openshift.io/generated-by': 'OpenShiftWebConsole',
+      'app.openshift.io/connects-to': '[{"apiVersion":"apps/v1","kind":"Deployment","name":"hello-openshift"}]'
     },
     resourceVersion: '77853',
     name: 'helloworld',
@@ -945,6 +946,7 @@ export const mockDeploymentData2 = {
       'app.kubernetes.io/component': 'helloworld',
       'app.kubernetes.io/instance': 'helloworld',
       'app.kubernetes.io/name': 'helloworld',
+      'app.kubernetes.io/part-of': 'helloworld-app',
       'app.openshift.io/runtime-namespace': 'jai-test',
     },
   },

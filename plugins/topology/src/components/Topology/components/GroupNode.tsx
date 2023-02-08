@@ -7,7 +7,7 @@ import {
   ShapeProps,
   WithContextMenuProps,
   WithDragNodeProps,
-  WithSelectionProps
+  WithSelectionProps,
 } from '@patternfly/react-topology';
 import AlternateIcon from '@patternfly/react-icons/dist/esm/icons/regions-icon';
 import DefaultIcon from '@patternfly/react-icons/dist/esm/icons/builder-image-icon';
@@ -17,10 +17,10 @@ const ICON_PADDING = 20;
 
 export enum DataTypes {
   Default,
-  Alternate
+  Alternate,
 }
 
-type StyleGroupProps = {
+type GroupNodeProps = {
   element: Node;
   collapsible: boolean;
   collapsedWidth?: number;
@@ -32,7 +32,7 @@ type StyleGroupProps = {
   WithDragNodeProps &
   WithSelectionProps;
 
-const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
+const GroupNode: React.FunctionComponent<GroupNodeProps> = ({
   element,
   onContextMenu,
   contextMenuOpen,
@@ -53,12 +53,21 @@ const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
   };
 
   const renderIcon = (): React.ReactNode => {
-    const iconSize = Math.min(collapsedWidth, collapsedHeight) - ICON_PADDING * 2;
+    const iconSize =
+      Math.min(collapsedWidth, collapsedHeight) - ICON_PADDING * 2;
     const Component = getTypeIcon(data.dataType);
 
     return (
-      <g transform={`translate(${(collapsedWidth - iconSize) / 2}, ${(collapsedHeight - iconSize) / 2})`}>
-        <Component style={{ color: '#393F44' }} width={iconSize} height={iconSize} />
+      <g
+        transform={`translate(${(collapsedWidth - iconSize) / 2}, ${
+          (collapsedHeight - iconSize) / 2
+        })`}
+      >
+        <Component
+          style={{ color: '#393F44' }}
+          width={iconSize}
+          height={iconSize}
+        />
       </g>
     );
   };
@@ -89,4 +98,4 @@ const StyleGroup: React.FunctionComponent<StyleGroupProps> = ({
   );
 };
 
-export default observer(StyleGroup);
+export default observer(GroupNode);
