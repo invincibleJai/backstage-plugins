@@ -166,11 +166,6 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
-
-    {/* TODO: Add entity for topology */}
-    <EntityLayout.Route path="/topology" title="Topology">
-      <TopologyPage />
-    </EntityLayout.Route>
   </EntityLayout>
 );
 
@@ -199,7 +194,7 @@ const websiteEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-    {/* TODO: Add entity for topology */}
+    {/* TODO : Remove for testing Add entity for topology */}
     <EntityLayout.Route path="/topology" title="Topology">
       <TopologyPage />
     </EntityLayout.Route>

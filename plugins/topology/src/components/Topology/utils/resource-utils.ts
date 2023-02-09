@@ -42,7 +42,7 @@ export const getWorkloadMonitoringAlerts = (
     (acc: Alert[], alert) => {
       const labelValues = _.map(
         alertMessageResources,
-        (model, label) => alert?.labels?.[label],
+        (_model, label) => alert?.labels?.[label],
       );
       if (_.find(labelValues, val => val === resource?.metadata?.name)) {
         acc.push(alert);

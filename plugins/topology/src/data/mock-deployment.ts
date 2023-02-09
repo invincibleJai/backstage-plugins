@@ -788,7 +788,8 @@ export const mockDeploymentData2 = {
       'image.openshift.io/triggers':
         '[{"from":{"kind":"ImageStreamTag","name":"helloworld:latest","namespace":"jai-test"},"fieldPath":"spec.template.spec.containers[?(@.name==\\"helloworld\\")].image","pause":"false"}]',
       'openshift.io/generated-by': 'OpenShiftWebConsole',
-      'app.openshift.io/connects-to': '[{"apiVersion":"apps/v1","kind":"Deployment","name":"hello-openshift"}]'
+      'app.openshift.io/connects-to':
+        '[{"apiVersion":"apps/v1","kind":"Deployment","name":"hello-openshift"}]',
     },
     resourceVersion: '77853',
     name: 'helloworld',

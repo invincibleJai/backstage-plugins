@@ -10,16 +10,24 @@ interface Cancelable {
 export const useDebounceCallback = <T extends (...args: any[]) => any>(
   callback: T,
   timeout: number = 500,
-  debounceParams: { leading?: boolean; trailing?: boolean; maxWait?: number } = {
+  debounceParams: {
+    leading?: boolean;
+    trailing?: boolean;
+    maxWait?: number;
+  } = {
     leading: false,
     trailing: true,
   },
-): ((...args) => any) & Cancelable => {
+): ((...args: any) => any) & Cancelable => {
   const memDebounceParams = useDeepCompareMemoize(debounceParams);
   const callbackRef = React.useRef<T>();
   callbackRef.current = callback;
 
   return React.useMemo(() => {
-    return debounce((...args) => callbackRef.current(...args), timeout, memDebounceParams);
+    return debounce(
+      (...args) => callbackRef.current && callbackRef.current(...args),
+      timeout,
+      memDebounceParams,
+    );
   }, [memDebounceParams, timeout]);
 };

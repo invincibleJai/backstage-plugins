@@ -30,6 +30,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.45",
     "react-use": "^17.2.4",
+    "@patternfly/patternfly": "4.217.1",
     "@patternfly/react-core": "4.267.6",
     "@patternfly/react-icons": "^4.93.3",
     "@patternfly/react-styles": "^4.92.3",

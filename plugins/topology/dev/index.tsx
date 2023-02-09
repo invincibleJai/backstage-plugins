@@ -7,6 +7,6 @@ createDevApp()
   .addPage({
     element: <TopologyPage />,
     title: 'Root Page',
-    path: '/topology'
+    path: '/topology',
   })
   .render();

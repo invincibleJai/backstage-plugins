@@ -2,13 +2,15 @@ import * as React from 'react';
 import { ChartDonut } from '@patternfly/react-charts';
 import { Tooltip } from '@patternfly/react-core';
 import * as _ from 'lodash';
-import { calculateRadius, podStatus, getPodStatus } from '../../utils/workloadNodeUtils';
+import {
+  calculateRadius,
+  podStatus,
+  getPodStatus,
+} from '../../utils/workloadNodeUtils';
 import { AllPodStatus, podColor } from './pod';
 import { useForceUpdate } from '../../hooks/useForceUpdate';
 
 import './PodStatus.css';
-
-
 
 const ANIMATION_DURATION = 350;
 const MAX_POD_TITLE_LENGTH = 14;
@@ -60,12 +62,12 @@ const PodStatus: React.FC<PodStatusProps> = ({
 }) => {
   const [updateOnEnd, setUpdateOnEnd] = React.useState<boolean>(false);
   const forceUpdate = useForceUpdate();
-  const prevVData = React.useRef<PodData[]>(null);
+  const prevVData = React.useRef<PodData[] | null>(null);
 
   const vData = React.useMemo(() => {
     const updateVData: PodData[] = podStatus.map((pod: any) => ({
       x: pod,
-      y: _.sumBy(data, (d) => +(getPodStatus(d) === pod)) || 0,
+      y: _.sumBy(data, d => +(getPodStatus(d) === pod)) || 0,
     }));
 
     if (_.isEmpty(data)) {
@@ -76,8 +78,12 @@ const PodStatus: React.FC<PodStatusProps> = ({
       );
     }
 
-    const prevDataPoints = _.size(_.filter(prevVData.current, (nextData) => nextData.y !== 0));
-    const dataPoints = _.size(_.filter(updateVData, (nextData) => nextData.y !== 0));
+    const prevDataPoints = _.size(
+      _.filter(prevVData.current, nextData => nextData.y !== 0),
+    );
+    const dataPoints = _.size(
+      _.filter(updateVData, nextData => nextData.y !== 0),
+    );
     setUpdateOnEnd(dataPoints === 1 && prevDataPoints > 1);
 
     if (!_.isEqual(prevVData.current, updateVData)) {
@@ -87,7 +93,9 @@ const PodStatus: React.FC<PodStatusProps> = ({
     return prevVData.current;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
-  const truncTitle = title ? _.truncate(title, { length: MAX_POD_TITLE_LENGTH }) : undefined;
+  const truncTitle = title
+    ? _.truncate(title, { length: MAX_POD_TITLE_LENGTH })
+    : undefined;
   const truncSubTitle = subTitle
     ? _.truncate(subTitle, { length: MAX_POD_TITLE_LENGTH })
     : undefined;
@@ -102,8 +110,10 @@ const PodStatus: React.FC<PodStatusProps> = ({
         standalone={standalone}
         innerRadius={innerRadius}
         radius={outerRadius}
-        groupComponent={x && y ? <g transform={`translate(${x}, ${y})`} /> : undefined}
-        data={vData}
+        groupComponent={
+          x && y ? <g transform={`translate(${x}, ${y})`} /> : undefined
+        }
+        data={vData as any[] | undefined}
         height={size}
         width={size}
         title={truncTitle}
@@ -150,7 +160,7 @@ const PodStatus: React.FC<PodStatusProps> = ({
   if (showTooltip) {
     const tipContent = (
       <div className="tp-pod-status-tooltip">
-        {vData.map((d) => {
+        {vData.map(d => {
           return d.y > 0 ? (
             <div key={d.x} className="tp-pod-status-tooltip__content">
               <span

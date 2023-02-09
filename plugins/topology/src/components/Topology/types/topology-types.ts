@@ -5,7 +5,7 @@ import { K8sResourceKind, WatchK8sResults } from './types';
 
 export type TrafficData = {
   nodes: KialiNode[];
-  edges: KialiEdge[];
+  edges: any[];
 };
 
 export type KialiNode = {
@@ -18,15 +18,6 @@ export type KialiNode = {
     version?: string;
     destServices?: { [key: string]: any }[];
     traffic?: { [key: string]: any }[];
-  };
-};
-
-export type KialiEdge = {
-  data: {
-    id: string;
-    source: string;
-    target: string;
-    traffic: { [key: string]: any };
   };
 };
 
