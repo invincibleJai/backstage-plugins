@@ -292,49 +292,26 @@ export const getPodsDataForResource = (
  * See also `getPodsDataForResource` above
  */
 export const getResourcesToWatchForPods = (kind: string, namespace: string) => {
-  if (!kind) {
+  if (kind && kind === 'Deployment') {
     return {
       pods: {
         isList: true,
         kind: 'Pod',
         namespace,
       },
+      replicaSets: {
+        isList: true,
+        kind: 'ReplicaSet',
+        namespace,
+      },
     };
   }
-  switch (kind) {
-    case 'DeploymentConfig':
-      return {
-        pods: {
-          isList: true,
-          kind: 'Pod',
-          namespace,
-        },
-        replicationControllers: {
-          isList: true,
-          kind: 'ReplicationController',
-          namespace,
-        },
-      };
-    case 'Deployment':
-      return {
-        pods: {
-          isList: true,
-          kind: 'Pod',
-          namespace,
-        },
-        replicaSets: {
-          isList: true,
-          kind: 'ReplicaSet',
-          namespace,
-        },
-      };
-    default:
-      return {
-        pods: {
-          isList: true,
-          kind: 'Pod',
-          namespace,
-        },
-      };
-  }
+
+  return {
+    pods: {
+      isList: true,
+      kind: 'Pod',
+      namespace,
+    },
+  };
 };

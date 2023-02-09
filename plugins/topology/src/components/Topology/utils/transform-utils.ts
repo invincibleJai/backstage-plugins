@@ -46,9 +46,9 @@ export const getTopologyNodeItem = (
   resourceKind?: string,
   shape?: NodeShape,
 ): OdcNodeModel => {
-  const uid = resource?.metadata?.uid;
-  const name = resource?.metadata?.name;
-  const label = resource?.metadata?.labels?.['app.openshift.io/instance'];
+  const uid = resource.metadata?.uid;
+  const name = resource.metadata?.name;
+  const label = resource.metadata?.labels?.['app.openshift.io/instance'];
   const { group, version } = groupVersionFor(resource.apiVersion as string);
   const kindRef = [group || 'core', version, resource.kind].join('~');
   const kind = resourceKind || kindRef;

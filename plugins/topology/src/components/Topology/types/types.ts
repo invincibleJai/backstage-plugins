@@ -1,5 +1,3 @@
-import { NodeCondition } from './node';
-
 export type K8sModel = {
   abbr: string;
   kind: string;
@@ -125,12 +123,6 @@ export type Selector = {
   matchExpressions?: MatchExpression[];
 };
 
-type CurrentObject = {
-  averageUtilization?: number;
-  averageValue?: string;
-  value?: string;
-};
-
 type MetricObject = {
   name: string;
   selector?: Selector;
@@ -169,59 +161,65 @@ export type HPAMetric = {
   };
 };
 
-type HPAScalingPolicy = {
-  hpaScalingPolicyType: 'Pods' | 'Percent';
-  value: number;
-  periodSeconds: number;
+type ContainerStateValue = {
+  reason?: string;
+  [key: string]: any;
 };
 
-type HPAScalingRules = {
-  stabilizationWindowSeconds?: number;
-  selectPolicy?: 'Max' | 'Min' | 'Disabled';
-  policies?: HPAScalingPolicy[];
+export type ContainerState = {
+  waiting?: ContainerStateValue;
+  running?: ContainerStateValue;
+  terminated?: ContainerStateValue;
 };
 
-type HPACurrentMetrics = {
-  type: 'Object' | 'Pods' | 'Resource' | 'External';
-  external?: {
-    current: CurrentObject;
-    metric: MetricObject;
-  };
-  object?: {
-    current: CurrentObject;
-    describedObject: DescribedObject;
-    metric: MetricObject;
-  };
-  pods?: {
-    current: CurrentObject;
-    metric: MetricObject;
-  };
-  resource?: {
-    name: string;
-    current: CurrentObject;
-  };
+export type ContainerStatus = {
+  name: string;
+  state?: ContainerState;
+  lastState?: ContainerState;
+  ready: boolean;
+  restartCount: number;
+  image: string;
+  imageID: string;
+  containerID?: string;
 };
 
-export type HorizontalPodAutoscalerKind = K8sResourceCommon & {
-  spec: {
-    scaleTargetRef: {
-      apiVersion: string;
-      kind: string;
-      name: string;
-    };
-    minReplicas?: number;
-    maxReplicas: number;
-    metrics?: HPAMetric[];
-    behavior?: {
-      scaleUp?: HPAScalingRules;
-      scaleDown?: HPAScalingRules;
-    };
-  };
-  status?: {
-    currentReplicas: number;
-    desiredReplicas: number;
-    currentMetrics?: HPACurrentMetrics[];
-    conditions: NodeCondition[];
-    lastScaleTime?: string;
-  };
+type PodPhase = 'Pending' | 'Running' | 'Succeeded' | 'Failed' | 'Unknown';
+
+export enum K8sResourceConditionStatus {
+  True = 'True',
+  False = 'False',
+  Unknown = 'Unknown',
+}
+
+export type K8sResourceCondition = {
+  type: string;
+  status: keyof typeof K8sResourceConditionStatus;
+  lastTransitionTime?: string;
+  reason?: string;
+  message?: string;
 };
+
+export type PodCondition = {
+  lastProbeTime?: string;
+} & K8sResourceCondition;
+
+export type PodStatus = {
+  phase: PodPhase;
+  conditions?: PodCondition[];
+  message?: string;
+  reason?: string;
+  startTime?: string;
+  initContainerStatuses?: ContainerStatus[];
+  containerStatuses?: ContainerStatus[];
+  [key: string]: any;
+};
+
+export type PodTemplate = {
+  metadata: ObjectMetadata;
+  spec: { [key: string]: any };
+};
+
+export type PodKind = {
+  status?: PodStatus;
+} & K8sResourceCommon &
+  PodTemplate;

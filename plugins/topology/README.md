@@ -12,14 +12,14 @@ This plugin will help with visualizing the workloads like Deployment, Replicaset
 1. Install the plugin
 
    ```bash
-   yarn workspace app add @janus-idp/plugin-topology
+   yarn workspace app add @janus-idp/backstage-plugin-topology
    ```
 
 2. Enable additional tab on the entity view page
 
    ```ts
    // packages/app/src/components/catalog/EntityPage.tsx
-   import { TopologyPage } from '@janus-idp/plugin-topology';
+   import { TopologyPage } from '@janus-idp/backstage-plugin-topology';
 
    const serviceEntityPage = (
      <EntityPageLayout>
@@ -64,5 +64,5 @@ yarn start-backend
 ```
 
 ```
-yarn workspace @janus-idp/plugin-topology run start
+yarn workspace @janus-idp/backstage-plugin-topology run start
 ```

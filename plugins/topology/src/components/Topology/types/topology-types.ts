@@ -1,29 +1,14 @@
 import { Model, NodeModel } from '@patternfly/react-topology';
 import { ExtPodKind } from './pods';
-import { OverviewItem } from './resource';
 import { K8sResourceKind, WatchK8sResults } from './types';
-
-export type TrafficData = {
-  nodes: KialiNode[];
-  edges: any[];
-};
-
-export type KialiNode = {
-  data: {
-    id: string;
-    nodeType: string;
-    namespace: string;
-    workload: string;
-    app: string;
-    version?: string;
-    destServices?: { [key: string]: any }[];
-    traffic?: { [key: string]: any }[];
-  };
-};
 
 export interface KindsMap {
   [key: string]: string;
 }
+
+export type OverviewItem<T = K8sResourceKind> = {
+  obj: T;
+};
 
 export type TopologyResourcesObject = { [key: string]: K8sResourceKind[] };
 

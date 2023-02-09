@@ -8,8 +8,6 @@
   ],
   "exclude": ["node_modules"],
   "compilerOptions": {
-    // added as Pf topology package needs to update the typings
-    "strictFunctionTypes": false,
     "outDir": "dist-types",
     "rootDir": "."
   }

@@ -1,15 +1,12 @@
 import { Model } from '@patternfly/react-topology';
 import { baseDataModelGetter } from './data-transformer';
 import { WatchedResourceType, WatchK8sResults } from '../types/types';
-import { Alerts } from '../types/monitoring-types';
-import { TopologyResourcesObject, TrafficData } from '../types/topology-types';
+import { TopologyResourcesObject } from '../types/topology-types';
 import { getWorkloadResources } from '../utils/topology-utils';
 
 export const updateTopologyDataModel = (
   resources: WatchK8sResults<TopologyResourcesObject>,
   watchedResources: WatchedResourceType,
-  trafficData?: TrafficData,
-  monitoringAlerts?: Alerts,
 ): Promise<{ loaded: boolean; loadError: string; model: Model | null }> => {
   if (!resources) {
     return Promise.resolve({ loaded: false, loadError: '', model: null });
@@ -49,8 +46,6 @@ export const updateTopologyDataModel = (
     topologyModel,
     resources,
     workloadResources,
-    trafficData,
-    monitoringAlerts,
   );
 
   return Promise.resolve({ loaded: true, loadError: '', model: fullModel });

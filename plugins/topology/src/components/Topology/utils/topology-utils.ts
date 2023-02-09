@@ -1,21 +1,13 @@
 import * as _ from 'lodash';
-import { OverviewItem } from '../types/resource';
 import {
   KindsMap,
+  OverviewItem,
   TopologyDataObject,
   TopologyDataResources,
 } from '../types/topology-types';
 import { K8sResourceKind, WatchedResourceType } from '../types/types';
 
-export const WORKLOAD_TYPES = [
-  'deployments',
-  'deploymentConfigs',
-  'daemonSets',
-  'statefulSets',
-  'jobs',
-  'cronJobs',
-  'pods',
-];
+export const WORKLOAD_TYPES = ['deployments', 'jobs', 'pods'];
 
 export const getTopologyResourceObject = (
   topologyObject: TopologyDataObject,
@@ -51,9 +43,7 @@ export const createTopologyNodeData = (
   overviewItem: OverviewItem,
   type: string,
   defaultIcon: string,
-  operatorBackedService: boolean = false,
 ) => {
-  const { monitoringAlerts = [] } = overviewItem;
   const dcUID = _.get(resource, 'metadata.uid');
   const deploymentsLabels = _.get(
     resource,
@@ -77,10 +67,8 @@ export const createTopologyNodeData = (
     resource,
     resources: {
       ...overviewItem,
-      isOperatorBackedService: operatorBackedService,
     },
     data: {
-      monitoringAlerts,
       kind: kindRef,
       editURL: deploymentsAnnotations['app.openshift.io/edit-url'],
       vcsURI: deploymentsAnnotations['app.openshift.io/vcs-uri'],

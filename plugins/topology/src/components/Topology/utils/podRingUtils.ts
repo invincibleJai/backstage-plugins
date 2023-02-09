@@ -3,6 +3,8 @@ import { ChartLabel } from '@patternfly/react-charts';
 import classNames from 'classnames';
 import { getPodStatus } from './workloadNodeUtils';
 import { AllPodStatus } from '../components/Pods/pod';
+import { ExtPodKind } from '../types/pods';
+import { K8sResourceKind } from '../types/types';
 
 const getTitleComponent = (
   longTitle: boolean = false,
@@ -24,7 +26,7 @@ const getTitleComponent = (
 const podKindString = (count: number) => (count === 1 ? 'Pod' : 'Pods');
 
 const isPendingPods = (
-  pods: any[],
+  pods: ExtPodKind[],
   currentPodCount: number,
   desiredPodCount: number,
 ): boolean =>
@@ -87,7 +89,11 @@ const getTitleAndSubtitle = (
   };
 };
 
-export const podRingLabel = (obj: any, ownerKind: string, pods: any[]) => {
+export const podRingLabel = (
+  obj: K8sResourceKind,
+  ownerKind: string,
+  pods: ExtPodKind[],
+) => {
   let currentPodCount;
   let desiredPodCount;
   let isPending;
@@ -125,7 +131,11 @@ export const podRingLabel = (obj: any, ownerKind: string, pods: any[]) => {
   return podRingLabelData;
 };
 
-export const usePodRingLabel = (obj: any, ownerKind: string, pods: any[]) => {
+export const usePodRingLabel = (
+  obj: K8sResourceKind,
+  ownerKind: string,
+  pods: ExtPodKind[],
+) => {
   const podRingLabelData = podRingLabel(obj, ownerKind, pods);
   const { title, subTitle, longTitle, longSubtitle, reversed } =
     podRingLabelData;

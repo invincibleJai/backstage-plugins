@@ -5,27 +5,31 @@ import {
   DEPLOYMENT_STRATEGY,
   podColor,
 } from '../components/Pods/pod';
+import {
+  ExtPodKind,
+  PodControllerOverviewItem,
+  PodRCData,
+} from '../types/pods';
+import { ContainerStatus, K8sResourceKind, PodKind } from '../types/types';
 
 export const podStatus = Object.keys(podColor);
 
-const isContainerFailedFilter = (containerStatus: any) => {
+const isContainerFailedFilter = (containerStatus: ContainerStatus) => {
   return (
-    containerStatus.state.terminated &&
+    containerStatus.state?.terminated &&
     containerStatus.state.terminated.exitCode !== 0
   );
 };
 
-export const isContainerLoopingFilter = (containerStatus: any) => {
+export const isContainerLoopingFilter = (containerStatus: ContainerStatus) => {
   return (
-    containerStatus.state.waiting &&
+    containerStatus.state?.waiting &&
     containerStatus.state.waiting.reason === 'CrashLoopBackOff'
   );
 };
 
-const numContainersReadyFilter = (pod: any) => {
-  const {
-    status: { containerStatuses },
-  } = pod;
+const numContainersReadyFilter = (pod: PodKind) => {
+  const containerStatuses = pod.status?.containerStatuses;
   let numReady = 0;
   _.forEach(containerStatuses, status => {
     if (status.ready) {
@@ -35,7 +39,7 @@ const numContainersReadyFilter = (pod: any) => {
   return numReady;
 };
 
-const isReady = (pod: any) => {
+const isReady = (pod: PodKind) => {
   const {
     spec: { containers },
   } = pod;
@@ -45,10 +49,9 @@ const isReady = (pod: any) => {
   return numReady === total;
 };
 
-const podWarnings = (pod: any) => {
-  const {
-    status: { phase, containerStatuses },
-  } = pod;
+const podWarnings = (pod: PodKind) => {
+  const phase = pod.status?.phase;
+  const containerStatuses = pod.status?.containerStatuses;
   if (phase === AllPodStatus.Running && containerStatuses) {
     return _.map(containerStatuses, containerStatus => {
       if (!containerStatus.state) {
@@ -70,7 +73,7 @@ const podWarnings = (pod: any) => {
   return null;
 };
 
-export const getPodStatus = (pod: any) => {
+export const getPodStatus = (pod: PodKind) => {
   if (_.has(pod, ['metadata', 'deletionTimestamp'])) {
     return AllPodStatus.Terminating;
   }
@@ -109,7 +112,7 @@ export const calculateRadius = (size: number) => {
   };
 };
 
-const getScalingUp = (dc: any) => {
+const getScalingUp = (dc: K8sResourceKind) => {
   return {
     ..._.pick(dc, 'metadata'),
     status: {
@@ -119,8 +122,8 @@ const getScalingUp = (dc: any) => {
 };
 
 export const podDataInProgress = (
-  dc: any,
-  current: any,
+  dc: K8sResourceKind,
+  current: PodControllerOverviewItem,
   isRollingOut: boolean,
 ): boolean => {
   const strategy = dc?.spec?.strategy?.type;
@@ -133,10 +136,10 @@ export const podDataInProgress = (
 };
 
 export const getPodData = (
-  podRCData: any,
+  podRCData: PodRCData,
 ): {
-  inProgressDeploymentData: any[] | null;
-  completedDeploymentData: any[];
+  inProgressDeploymentData: ExtPodKind[] | null;
+  completedDeploymentData: ExtPodKind[];
 } => {
   const strategy = _.get(podRCData.obj, ['spec', 'strategy', 'type'], null);
   const currentDeploymentphase = podRCData.current && podRCData.current.phase;
@@ -170,7 +173,7 @@ export const getPodData = (
     };
   }
   // if build is not finished show `Scaling Up` on pod phase
-  if (!podRCData.current && !podRCData.previous) {
+  if (!podRCData.current && podRCData.obj && !podRCData.previous) {
     return {
       inProgressDeploymentData: null,
       completedDeploymentData: [getScalingUp(podRCData.obj)],
